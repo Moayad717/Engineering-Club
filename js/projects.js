@@ -9,9 +9,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function loadProjects() {
   showLoading('projects-list');
-  
+
   const result = await callAPI('getProjects', { major: 'All' });
-  
+
   if (result.success) {
     allProjects = result.data.projects;
     displayProjects(allProjects);
@@ -22,24 +22,24 @@ async function loadProjects() {
 
 function displayProjects(projects) {
   const container = document.getElementById('projects-list');
-  
+
   if (projects.length === 0) {
     container.innerHTML = '<div class="card">No projects found for this major.</div>';
     return;
   }
-  
+
   let html = '<div class="card-grid">';
-  
+
   projects.forEach(project => {
     const majorsText = project.majors.join(', ');
-    
+
     // Determine if applications are open
     const canApply = project.status === 'active';
-    
+
     // Status badge
     let statusBadge = '';
     let buttonHtml = '';
-    
+
     if (project.status === 'active') {
       statusBadge = '<span class="badge badge-approved">Open for Applications</span>';
       buttonHtml = `
@@ -57,7 +57,7 @@ function displayProjects(projects) {
       statusBadge = '<span class="badge" style="background: #95a5a6; color: white;">Completed</span>';
       buttonHtml = '<button class="btn-secondary" style="margin-top: 1rem; cursor: not-allowed;" disabled>Completed</button>';
     }
-    
+
     html += `
       <div class="card">
         <div style="margin-bottom: 1rem;">${statusBadge}</div>
@@ -69,20 +69,20 @@ function displayProjects(projects) {
       </div>
     `;
   });
-  
+
   html += '</div>';
   container.innerHTML = html;
 }
 
 function filterProjects(major) {
   currentFilter = major;
-  
+
   // Update active button
   document.querySelectorAll('.filter-btn').forEach(btn => {
     btn.classList.remove('active');
   });
   event.target.classList.add('active');
-  
+
   // Filter projects
   if (major === 'All') {
     displayProjects(allProjects);
@@ -95,7 +95,7 @@ function filterProjects(major) {
 function openApplicationModal(projectId, projectTitle) {
   // Check if verified
   if (!requireVerification()) return;
-  
+
   selectedProject = { id: projectId, title: projectTitle };
   document.getElementById('modal-project-title').textContent = projectTitle;
   document.getElementById('application-modal').style.display = 'block';
@@ -115,14 +115,14 @@ async function submitApplication() {
   const name = document.getElementById('applicant-name').value.trim();
   const major = document.getElementById('applicant-major').value;
   const message = document.getElementById('applicant-message').value.trim();
-  
+
   if (!name || !major) {
     showError('modal-message', 'Please fill in all required fields');
     return;
   }
-  
+
   showLoading('modal-message');
-  
+
   const data = {
     email: getVerifiedEmail(),
     name: name,
@@ -131,9 +131,9 @@ async function submitApplication() {
     projectTitle: selectedProject.title,
     message: message
   };
-  
+
   const result = await callAPI('submitApplication', {}, 'POST', data);
-  
+
   if (result.success) {
     showSuccess('modal-message', 'Application submitted! Check your dashboard for status.');
     setTimeout(() => {

@@ -81,7 +81,7 @@
   <nav>
     <div class="container">
       <div class="logo">Engineering Club - Admin</div>
-      <ul>
+      <ul id="admin-nav">
         <li><a href="index.html">Home</a></li>
       </ul>
     </div>
@@ -103,7 +103,7 @@
 
     <!-- Admin Content -->
     <div id="admin-content" style="display: none;">
-      
+
       <!-- Stats Dashboard -->
       <div class="stats-grid">
         <div class="stat-card">
@@ -132,7 +132,7 @@
       <div id="tab-applications" class="tab-content active">
         <div class="card">
           <h2>Project Applications</h2>
-          
+
           <div class="filter-section">
             <label>Filter by Status:</label>
             <select id="app-filter" onchange="filterApplications()">
@@ -146,7 +146,7 @@
           <div class="action-buttons">
             <button onclick="loadApplications()" class="btn-secondary">Refresh</button>
           </div>
-          
+
           <div id="applications-admin"></div>
         </div>
       </div>
