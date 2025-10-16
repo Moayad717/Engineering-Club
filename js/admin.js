@@ -5,7 +5,6 @@ let allProjects = [];
 
 // Set default archive dates
 document.addEventListener('DOMContentLoaded', () => {
-  // Set default date to 3 months ago
   const threeMonthsAgo = new Date();
   threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
   const dateStr = threeMonthsAgo.toISOString().split('T')[0];
@@ -46,7 +45,6 @@ async function loadAllData() {
 }
 
 function switchTab(tabName) {
-  // Hide all tabs
   document.querySelectorAll('.tab-content').forEach(tab => {
     tab.classList.remove('active');
   });
@@ -54,7 +52,6 @@ function switchTab(tabName) {
     btn.classList.remove('active');
   });
   
-  // Show selected tab
   document.getElementById('tab-' + tabName).classList.add('active');
   event.target.classList.add('active');
 }
@@ -74,7 +71,14 @@ async function loadApplications() {
 }
 
 function filterApplications() {
-  const filter = document.getElementById('app-filter').value;
+  const filterElement = document.getElementById('app-filter');
+  if (!filterElement) {
+    // If filter doesn't exist yet, show all
+    displayApplicationsAdmin(allApplications);
+    return;
+  }
+  
+  const filter = filterElement.value;
   
   let filtered = allApplications;
   if (filter !== 'all') {
@@ -86,6 +90,11 @@ function filterApplications() {
 
 function displayApplicationsAdmin(applications) {
   const container = document.getElementById('applications-admin');
+  
+  if (!container) {
+    console.error('applications-admin container not found');
+    return;
+  }
   
   if (applications.length === 0) {
     container.innerHTML = '<p style="color: #7f8c8d; margin-top: 1rem;">No applications found.</p>';
@@ -193,6 +202,11 @@ async function loadVolunteers() {
 function displayVolunteersAdmin(volunteers) {
   const container = document.getElementById('volunteers-admin');
   
+  if (!container) {
+    console.error('volunteers-admin container not found');
+    return;
+  }
+  
   if (volunteers.length === 0) {
     container.innerHTML = '<p style="color: #7f8c8d; margin-top: 1rem;">No volunteers yet.</p>';
     return;
@@ -237,6 +251,11 @@ async function loadProjects() {
 function displayProjectsAdmin(projects) {
   const container = document.getElementById('projects-admin');
   
+  if (!container) {
+    console.error('projects-admin container not found');
+    return;
+  }
+  
   if (projects.length === 0) {
     container.innerHTML = '<p style="color: #7f8c8d; margin-top: 1rem;">No projects yet.</p>';
     return;
@@ -248,6 +267,10 @@ function displayProjectsAdmin(projects) {
     let statusBadge = '';
     if (proj.status === 'active') {
       statusBadge = '<span class="badge badge-approved">Active</span>';
+    } else if (proj.status === 'in_progress') {
+      statusBadge = '<span class="badge" style="background: #3498db; color: white;">In Progress</span>';
+    } else if (proj.status === 'full') {
+      statusBadge = '<span class="badge badge-pending">Full</span>';
     } else if (proj.status === 'completed') {
       statusBadge = '<span class="badge" style="background: #95a5a6;">Completed</span>';
     } else if (proj.status === 'archived') {
@@ -264,9 +287,11 @@ function displayProjectsAdmin(projects) {
         <td>
           <select onchange="changeProjectStatus('${proj.id}', this.value)" style="padding: 0.4rem;">
             <option value="">Change Status...</option>
-            <option value="active">Set Active</option>
-            <option value="completed">Set Completed</option>
-            <option value="archived">Set Archived</option>
+            <option value="active">✅ Active (Applications Open)</option>
+            <option value="in_progress">🚧 In Progress</option>
+            <option value="full">⛔ Full (No Applications)</option>
+            <option value="completed">✔️ Completed</option>
+            <option value="archived">📦 Archived</option>
           </select>
         </td>
       </tr>
@@ -297,12 +322,23 @@ async function changeProjectStatus(projectId, newStatus) {
 }
 
 function updateStats() {
-  const pending = allApplications.filter(app => app.status === 'pending').length;
-  const activeProjects = allProjects.filter(proj => proj.status === 'active').length;
+  const statPending = document.getElementById('stat-pending');
+  const statVolunteers = document.getElementById('stat-volunteers');
+  const statActiveProjects = document.getElementById('stat-active-projects');
   
-  document.getElementById('stat-pending').textContent = pending;
-  document.getElementById('stat-volunteers').textContent = allVolunteers.length;
-  document.getElementById('stat-active-projects').textContent = activeProjects;
+  if (statPending && allApplications.length > 0) {
+    const pending = allApplications.filter(app => app.status === 'pending').length;
+    statPending.textContent = pending;
+  }
+  
+  if (statVolunteers) {
+    statVolunteers.textContent = allVolunteers.length;
+  }
+  
+  if (statActiveProjects && allProjects.length > 0) {
+    const activeProjects = allProjects.filter(proj => proj.status === 'active').length;
+    statActiveProjects.textContent = activeProjects;
+  }
 }
 
 // CLEANUP FUNCTIONS

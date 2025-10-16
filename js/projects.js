@@ -32,15 +32,40 @@ function displayProjects(projects) {
   
   projects.forEach(project => {
     const majorsText = project.majors.join(', ');
+    
+    // Determine if applications are open
+    const canApply = project.status === 'active';
+    
+    // Status badge
+    let statusBadge = '';
+    let buttonHtml = '';
+    
+    if (project.status === 'active') {
+      statusBadge = '<span class="badge badge-approved">Open for Applications</span>';
+      buttonHtml = `
+        <button onclick="openApplicationModal('${project.id}', '${project.title}')" class="btn-primary" style="margin-top: 1rem;">
+          Apply Now
+        </button>
+      `;
+    } else if (project.status === 'full') {
+      statusBadge = '<span class="badge badge-pending">Full - Applications Closed</span>';
+      buttonHtml = '<button class="btn-secondary" style="margin-top: 1rem; cursor: not-allowed;" disabled>Project Full</button>';
+    } else if (project.status === 'in_progress') {
+      statusBadge = '<span class="badge" style="background: #3498db; color: white;">In Progress</span>';
+      buttonHtml = '<button class="btn-secondary" style="margin-top: 1rem; cursor: not-allowed;" disabled>In Progress</button>';
+    } else if (project.status === 'completed') {
+      statusBadge = '<span class="badge" style="background: #95a5a6; color: white;">Completed</span>';
+      buttonHtml = '<button class="btn-secondary" style="margin-top: 1rem; cursor: not-allowed;" disabled>Completed</button>';
+    }
+    
     html += `
       <div class="card">
+        <div style="margin-bottom: 1rem;">${statusBadge}</div>
         <h3>${project.title}</h3>
         <p style="margin: 1rem 0;">${project.description}</p>
         <p><strong>Majors:</strong> ${majorsText}</p>
         <p><strong>Spots Available:</strong> ${project.spotsAvailable}</p>
-        <button onclick="openApplicationModal('${project.id}', '${project.title}')" class="btn-primary" style="margin-top: 1rem;">
-          Apply Now
-        </button>
+        ${buttonHtml}
       </div>
     `;
   });
