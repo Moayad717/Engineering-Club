@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel - Engineering Club</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    .admin-tabs {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      border-bottom: 2px solid #ecf0f1;
+    }
+    
+    .tab-btn {
+      padding: 0.8rem 1.5rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+      color: #7f8c8d;
+      border-bottom: 3px solid transparent;
+      transition: all 0.3s;
+    }
+    
+    .tab-btn.active {
+      color: #3498db;
+      border-bottom-color: #3498db;
+    }
+    
+    .tab-content {
+      display: none;
+    }
+    
+    .tab-content.active {
+      display: block;
+    }
+    
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    
+    .stat-card {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 1.5rem;
+      border-radius: 10px;
+      text-align: center;
+    }
+    
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+    
+    .stat-label {
+      opacity: 0.9;
+    }
+    
+    .action-buttons {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+    
+    .filter-section {
+      background: #f8f9fa;
+      padding: 1rem;
+      border-radius: 5px;
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="container">
+      <div class="logo">Engineering Club - Admin</div>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container">
+    <h1 style="margin: 2rem 0 1rem 0;">Admin Panel</h1>
+
+    <!-- Login Section -->
+    <div id="login-section" class="card">
+      <h2>Admin Login</h2>
+      <div id="login-message"></div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="admin-password" placeholder="Enter admin password">
+      </div>
+      <button onclick="adminLogin()" class="btn-primary">Login</button>
+    </div>
+
+    <!-- Admin Content -->
+    <div id="admin-content" style="display: none;">
+      
+      <!-- Stats Dashboard -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-number" id="stat-pending">-</div>
+          <div class="stat-label">Pending Applications</div>
+        </div>
+        <div class="stat-card" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+          <div class="stat-number" id="stat-volunteers">-</div>
+          <div class="stat-label">Total Volunteers</div>
+        </div>
+        <div class="stat-card" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+          <div class="stat-number" id="stat-active-projects">-</div>
+          <div class="stat-label">Active Projects</div>
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="admin-tabs">
+        <button class="tab-btn active" onclick="switchTab('applications')">Applications</button>
+        <button class="tab-btn" onclick="switchTab('volunteers')">Volunteers</button>
+        <button class="tab-btn" onclick="switchTab('projects')">Projects</button>
+        <button class="tab-btn" onclick="switchTab('cleanup')">Data Cleanup</button>
+      </div>
+
+      <!-- Applications Tab -->
+      <div id="tab-applications" class="tab-content active">
+        <div class="card">
+          <h2>Project Applications</h2>
+          
+          <div class="filter-section">
+            <label>Filter by Status:</label>
+            <select id="app-filter" onchange="filterApplications()">
+              <option value="all">All Applications</option>
+              <option value="pending" selected>Pending Only</option>
+              <option value="approved">Approved Only</option>
+              <option value="rejected">Rejected Only</option>
+            </select>
+          </div>
+
+          <div class="action-buttons">
+            <button onclick="loadApplications()" class="btn-secondary">Refresh</button>
+          </div>
+          
+          <div id="applications-admin"></div>
+        </div>
+      </div>
+
+      <!-- Volunteers Tab -->
+      <div id="tab-volunteers" class="tab-content">
+        <div class="card">
+          <h2>Event Volunteers</h2>
+          <div class="action-buttons">
+            <button onclick="loadVolunteers()" class="btn-secondary">Refresh</button>
+          </div>
+          <div id="volunteers-admin"></div>
+        </div>
+      </div>
+
+      <!-- Projects Tab -->
+      <div id="tab-projects" class="tab-content">
+        <div class="card">
+          <h2>Manage Projects</h2>
+          <div class="action-buttons">
+            <button onclick="loadProjects()" class="btn-secondary">Refresh</button>
+          </div>
+          <div id="projects-admin"></div>
+        </div>
+      </div>
+
+      <!-- Cleanup Tab -->
+      <div id="tab-cleanup" class="tab-content">
+        <div class="card">
+          <h2>Data Cleanup & Archive</h2>
+          <p style="color: #7f8c8d; margin-bottom: 2rem;">
+            Clean up old data to keep your admin panel organized. Archived data is moved to separate sheets for your records.
+          </p>
+
+          <h3>Archive Old Applications</h3>
+          <p style="margin-bottom: 1rem;">Archive applications older than a specific date</p>
+          <div class="form-group">
+            <label>Archive applications before:</label>
+            <input type="date" id="archive-apps-date" value="">
+          </div>
+          <button onclick="archiveApplications()" class="btn-primary">Archive Old Applications</button>
+
+          <hr style="margin: 2rem 0;">
+
+          <h3>Archive Old Volunteers</h3>
+          <p style="margin-bottom: 1rem;">Archive volunteer records older than a specific date</p>
+          <div class="form-group">
+            <label>Archive volunteers before:</label>
+            <input type="date" id="archive-vols-date" value="">
+          </div>
+          <button onclick="archiveVolunteers()" class="btn-primary">Archive Old Volunteers</button>
+
+          <hr style="margin: 2rem 0;">
+
+          <h3>Clean Up Past Events</h3>
+          <p style="margin-bottom: 1rem;">Automatically archive all events that have already happened</p>
+          <button onclick="cleanPastEvents()" class="btn-primary">Archive Past Events</button>
+
+          <hr style="margin: 2rem 0;">
+
+          <h3>Clean Up Past Seminars</h3>
+          <p style="margin-bottom: 1rem;">Automatically archive all seminars that have already happened</p>
+          <button onclick="cleanPastSeminars()" class="btn-primary">Archive Past Seminars</button>
+
+          <div id="cleanup-message" style="margin-top: 2rem;"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

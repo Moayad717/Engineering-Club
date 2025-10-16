@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Dashboard - Engineering Club</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <nav>
+    <div class="container">
+      <div class="logo">Engineering Club</div>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="seminars.html">Seminars</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="dashboard.html">My Dashboard</a></li>
+      </ul>
+      <div id="user-info"></div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <h1 style="margin: 2rem 0 1rem 0;">My Dashboard</h1>
+    <p style="margin-bottom: 2rem;">Track your project applications and event volunteering</p>
+
+    <div class="card">
+      <h2>Project Applications</h2>
+      <div id="applications-list"></div>
+    </div>
+
+    <div class="card" style="margin-top: 2rem;">
+      <h2>Event Volunteering</h2>
+      <div id="volunteers-list"></div>
+    </div>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

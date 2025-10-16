@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verify Email - Engineering Club</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <nav>
+    <div class="container">
+      <div class="logo">Engineering Club</div>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="verify-container">
+    <div class="verify-card">
+      <h2>Verify Your Email</h2>
+      <p style="margin-bottom: 2rem;">Enter your university email to get started</p>
+
+      <div id="message"></div>
+
+      <!-- Step 1: Enter Email -->
+      <div id="email-step">
+        <div class="form-group">
+          <input 
+            type="email" 
+            id="email" 
+            placeholder="your.name@uni.edu"
+            required
+          >
+        </div>
+        <button onclick="sendVerification()" class="btn-primary" style="width: 100%;">
+          Send Verification Code
+        </button>
+      </div>
+
+      <!-- Step 2: Enter Code (hidden initially) -->
+      <div id="code-step" style="display: none;">
+        <p style="margin-bottom: 1rem;">We sent a 6-digit code to <strong id="sent-email"></strong></p>
+        <div class="form-group">
+          <input 
+            type="text" 
+            id="code" 
+            placeholder="000000"
+            class="code-input"
+            maxlength="6"
+            required
+          >
+        </div>
+        <button onclick="verifyCodeSubmit()" class="btn-primary" style="width: 100%; margin-bottom: 1rem;">
+          Verify Code
+        </button>
+        <button onclick="resendCode()" class="btn-secondary" style="width: 100%;">
+          Resend Code
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/api.js"></script>
+  
+  <script>
+    // Check if already verified
+    if (isVerified()) {
+      window.location.href = 'index.html';
+    }
+
+    let currentEmail = '';
+
+    async function sendVerification() {
+      const email = document.getElementById('email').value.trim();
+      
+      if (!email) {
+        showError('message', 'Please enter your email');
+        return;
+      }
+
+      currentEmail = email;
+      showLoading('message');
+
+      const result = await callAPI('sendVerification', { email: email });
+
+      if (result.success) {
+        showSuccess('message', result.message);
+        document.getElementById('email-step').style.display = 'none';
+        document.getElementById('code-step').style.display = 'block';
+        document.getElementById('sent-email').textContent = email;
+      } else {
+        showError('message', result.message);
+      }
+    }
+
+    async function verifyCodeSubmit() {
+      const code = document.getElementById('code').value.trim();
+      
+      if (!code || code.length !== 6) {
+        showError('message', 'Please enter the 6-digit code');
+        return;
+      }
+
+      showLoading('message');
+
+      const result = await callAPI('verifyCode', { 
+        email: currentEmail,
+        code: code
+      });
+
+      if (result.success) {
+        showSuccess('message', 'Email verified! Redirecting...');
+        storeVerification(currentEmail);
+        setTimeout(() => {
+          window.location.href = 'projects.html';
+        }, 1500);
+      } else {
+        showError('message', result.message);
+      }
+    }
+
+    function resendCode() {
+      document.getElementById('code').value = '';
+      document.getElementById('email-step').style.display = 'block';
+      document.getElementById('code-step').style.display = 'none';
+      document.getElementById('message').innerHTML = '';
+    }
+
+    // Allow Enter key to submit
+    document.getElementById('email').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') sendVerification();
+    });
+
+    document.getElementById('code').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') verifyCodeSubmit();
+    });
+  </script>
+</body>
+</html>

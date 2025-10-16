@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projects - Engineering Club</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <nav>
+    <div class="container">
+      <div class="logo">Engineering Club</div>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="seminars.html">Seminars</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="dashboard.html">My Dashboard</a></li>
+      </ul>
+      <div id="user-info"></div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <h1 style="margin: 2rem 0 1rem 0;">Active Projects</h1>
+    <p style="margin-bottom: 2rem;">Browse and apply to projects in your engineering discipline</p>
+
+    <!-- Filters -->
+    <div class="filters">
+      <button class="filter-btn active" onclick="filterProjects('All')">All Majors</button>
+      <button class="filter-btn" onclick="filterProjects('Computer')">Computer</button>
+      <button class="filter-btn" onclick="filterProjects('Mechanical')">Mechanical</button>
+      <button class="filter-btn" onclick="filterProjects('Electrical')">Electrical</button>
+      <button class="filter-btn" onclick="filterProjects('Biomedical')">Biomedical</button>
+    </div>
+
+    <div id="projects-list"></div>
+  </div>
+
+  <!-- Application Modal -->
+  <div id="application-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; overflow-y: auto;">
+    <div style="max-width: 600px; margin: 50px auto; background: white; border-radius: 10px; padding: 2rem;">
+      <h2>Apply for Project</h2>
+      <h3 id="modal-project-title" style="color: #7f8c8d; margin-bottom: 2rem;"></h3>
+      
+      <div id="modal-message"></div>
+
+      <div class="form-group">
+        <label>Your Name</label>
+        <input type="text" id="applicant-name" required>
+      </div>
+
+      <div class="form-group">
+        <label>Your Major</label>
+        <select id="applicant-major" required>
+          <option value="">Select your major</option>
+          <option value="Computer">Computer Engineering</option>
+          <option value="Mechanical">Mechanical Engineering</option>
+          <option value="Electrical">Electrical Engineering</option>
+          <option value="Biomedical">Biomedical Engineering</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Why are you interested in this project?</label>
+        <textarea id="applicant-message" placeholder="Tell us about your interest and relevant skills..."></textarea>
+      </div>
+
+      <button onclick="submitApplication()" class="btn-primary" style="margin-right: 1rem;">Submit Application</button>
+      <button onclick="closeModal()" class="btn-secondary">Cancel</button>
+    </div>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/projects.js"></script>
+</body>
+</html>
