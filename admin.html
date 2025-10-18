@@ -6,6 +6,20 @@
   <title>Admin Panel - Engineering Club</title>
   <link rel="stylesheet" href="css/styles.css">
   <style>
+
+    .admin-nav-flex {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      gap: 1rem;
+    }
+
+    .admin-nav-flex ul {
+      display: flex;
+      justify-content: center;
+    }
+
     .admin-tabs {
       display: flex;
       gap: 1rem;
@@ -81,11 +95,23 @@
         flex-direction: column;
       }
     }
+
+    @media (max-width: 420px) {
+      .admin-nav-flex {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .admin-nav-flex ul {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+    }
   </style>
 </head>
 <body>
   <nav>
-    <div class="container">
+    <div class="admin-nav-flex">
       <div class="logo">Engineering Club - Admin</div>
       <ul id="admin-nav">
         <li><a href="index.html">Home</a></li>

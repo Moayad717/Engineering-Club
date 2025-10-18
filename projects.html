@@ -8,12 +8,13 @@
 </head>
 <body>
   <nav>
-    <div class="container">
+    <div class="nav-grid">
       <div class="logo">Engineering Club</div>
       <ul>
         <li><a href="index.html">Home</a></li>
         <li><a href="projects.html">Projects</a></li>
-        <li><a href="seminars.html">Seminars/<br>Workshops</a></li>
+        <li><a href="seminars.html">Seminars</a></li>
+        <li><a href="seminars.html">Workshops</a></li>
         <li><a href="events.html">Events</a></li>
         <li><a href="dashboard.html">Dashboard</a></li>
       </ul>
@@ -42,7 +43,7 @@
     <div style="max-width: 600px; margin: 50px auto; background: white; border-radius: 10px; padding: 2rem;">
       <h2>Apply for Project</h2>
       <h3 id="modal-project-title" style="color: #7f8c8d; margin-bottom: 2rem;"></h3>
-      
+
       <div id="modal-message"></div>
 
       <div class="form-group">
@@ -65,9 +66,10 @@
         <label>Why are you interested in this project?</label>
         <textarea id="applicant-message" placeholder="Tell us about your interest and relevant skills..."></textarea>
       </div>
-
-      <button onclick="submitApplication()" class="btn-primary" style="margin-right: 1rem;">Submit Application</button>
-      <button onclick="closeModal()" class="btn-secondary">Cancel</button>
+      <span class="submit-buttons">
+        <button onclick="submitApplication()" class="btn-primary">Submit Application</button>
+        <button onclick="closeModal()" class="btn-secondary">Cancel</button>
+      </span>
     </div>
   </div>
 

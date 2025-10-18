@@ -32,11 +32,12 @@ nav {
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-nav .container {
-  display: flex;
-  justify-content: space-between;
+nav .nav-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   align-items: center;
   gap: 1rem;
+  padding: 0 15px;
 }
 
 nav .logo {
@@ -45,9 +46,17 @@ nav .logo {
 }
 
 nav ul {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(6, auto);
+  gap: 0.5rem;
   list-style: none;
-  gap: 2rem;
+  text-align: center;
+}
+
+nav li {
+  padding: 0.5rem;
+  transition: transform 0.3s;
+  font-size: 1rem;
 }
 
 nav li:hover {
@@ -84,11 +93,17 @@ nav figure {
   flex-wrap: wrap;
 }
 
+nav .logo {
+  white-space: wrap;
+  text-align: center;
+}
+
 #user-info {
   display: flex;
   align-items: center;
   gap: 1rem;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .user-email {
@@ -140,6 +155,14 @@ button:hover, .btn-primary:hover, .btn-secondary:hover {
 button:disabled {
   background: #bdc3c7;
   cursor: not-allowed;
+}
+
+.submit-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
 /* ============================================
@@ -255,6 +278,13 @@ textarea {
   margin-bottom: 2rem;
 }
 
+.hero-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
 /* ============================================
    FILTERS
    ============================================ */
@@ -338,6 +368,38 @@ tr:hover {
   background: #FFF3E0;
 }
 
+#applications-list table,
+#volunteers-list table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+#applications-list th,
+#applications-list td,
+#volunteers-list th,
+#volunteers-list td {
+  padding: 0.8rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+#applications-list th,
+#volunteers-list th {
+  background: #2c3e50;
+  color: white;
+}
+
+#applications-list tr:last-child td,
+#volunteers-list tr:last-child td {
+  border-bottom: none;
+}
+
+#applications-list, #volunteers-list {
+  overflow-x: auto;
+}
+
 /* ============================================
    VERIFICATION PAGE
    ============================================ */
@@ -367,6 +429,52 @@ tr:hover {
   letter-spacing: 1rem;
   font-weight: bold;
 }
+
+
+/* ============================================
+   CONTACT US BAR
+   ============================================ */
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.contact-card {
+  background: #e7e7e7;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.contact-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.contact-card h3 {
+  color: #2c3e50;
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+}
+
+.contact-card a {
+  color: #3498db;
+  text-decoration: none;
+  word-break: break-all;
+}
+
+.contact-card a[href*="wa.me"] {
+  color: #27ae60;
+}
+
+.contact-card a:hover {
+  text-decoration: underline;
+}
+
 
 /* ============================================
    SOCIAL MEDIA BAR
@@ -427,10 +535,26 @@ tr:hover {
    RESPONSIVE
    ============================================ */
 
-@media (max-width: 768px) {
+@media (max-width: 890px) {
+
   nav ul {
-    flex-direction: column;
-    gap: 0.5rem;
+  grid-template-columns: repeat(3, auto);
+  gap: 0.8rem;
+}
+
+}
+
+@media (max-width: 768px) {
+
+  nav .nav-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    justify-items: center;
+  }
+
+  nav li {
+    padding: 0.5rem 1rem;
+    transition: transform 0.3s;
   }
 
   .hero h1 {
@@ -458,5 +582,35 @@ tr:hover {
   .social-bar-text {
     width: 100%;
     text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+
+  nav ul {
+    grid-template-columns: repeat(2, auto);
+    gap: 0.5rem;
+  }
+
+  .hero p {
+    font-size: 1rem;
+  }
+
+  .filters {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .filter-btn {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+@media (min-width: 655px) {
+  .contact-grid {
+    grid-template-columns: 1fr 1fr;
+    word-break: normal;
+    white-space: nowrap;
   }
 }
