@@ -47,7 +47,7 @@ nav .logo {
 
 nav ul {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
+  grid-template-columns: repeat(6, 1fr);
   gap: 0.5rem;
   list-style: none;
   text-align: center;
@@ -57,7 +57,7 @@ nav ul {
 nav li {
   padding: 0.5rem;
   transition: transform 0.3s;
-  font-size: 1rem;
+  font-size: 0.8rem;
 }
 
 nav li:hover {
@@ -591,6 +591,10 @@ tr:hover {
   nav ul {
     grid-template-columns: repeat(2, auto);
     gap: 0.5rem;
+  }
+
+  nav li {
+    font-size: 0.7rem;
   }
 
   .hero p {
