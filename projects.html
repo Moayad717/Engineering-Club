@@ -3,22 +3,30 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Projects - Engineering Club</title>
+  <title>Projects - LIU Engineering Club</title>
+  <link rel="icon" href="pic/eng-club-logo.TIFF" type="image/TIFF" sizes="32x32">
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
   <nav>
-    <div class="nav-grid">
-      <div class="logo">Engineering Club</div>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="projects.html">Projects</a></li>
-        <li><a href="seminars.html">Seminars</a></li>
-        <li><a href="seminars.html">Workshops</a></li>
-        <li><a href="events.html">Events</a></li>
-        <li><a href="dashboard.html">Dashboard</a></li>
-      </ul>
-      <div id="user-info"></div>
+    <div class="mini-nav-flex">
+      <div class="logo">LIU Engineering Club</div>
+      <div class ="mini-combo-nav">
+        <div id="user-info"></div>
+        <div class="dropdown" id="dropdown">
+          <button class="menu-btn"><div class="bar1"></div><div class="bar2"></div><div class="bar3"></div></button>
+          <div class="menu">
+            <ul>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="projects.html">Projects</a></li>
+              <li><a href="seminars.html">Seminars</a></li>
+              <li><a href="seminars.html">Workshops</a></li>
+              <li><a href="events.html">Events</a></li>
+              <li><a href="dashboard.html">Dashboard</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
   </nav>
 
@@ -30,8 +38,8 @@
     <div class="filters">
       <button class="filter-btn active" onclick="filterProjects('All')">All Majors</button>
       <button class="filter-btn" onclick="filterProjects('Computer')">Computer</button>
-      <button class="filter-btn" onclick="filterProjects('Mechanical')">Mechanical</button>
       <button class="filter-btn" onclick="filterProjects('Electrical')">Electrical</button>
+      <button class="filter-btn" onclick="filterProjects('Mechanical')">Mechanical</button>
       <button class="filter-btn" onclick="filterProjects('Biomedical')">Biomedical</button>
     </div>
 
@@ -56,8 +64,8 @@
         <select id="applicant-major" required>
           <option value="">Select your major</option>
           <option value="Computer">Computer Engineering</option>
-          <option value="Mechanical">Mechanical Engineering</option>
           <option value="Electrical">Electrical Engineering</option>
+          <option value="Mechanical">Mechanical Engineering</option>
           <option value="Biomedical">Biomedical Engineering</option>
         </select>
       </div>
@@ -73,6 +81,7 @@
     </div>
   </div>
 
+  <script src="js/menu.js"></script>
   <script src="js/config.js"></script>
   <script src="js/auth.js"></script>
   <script src="js/api.js"></script>

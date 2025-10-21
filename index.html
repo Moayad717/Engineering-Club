@@ -4,24 +4,32 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Engineering Club</title>
+  <link rel="icon" href="pic/eng-club-logo.TIFF" type="image/TIFF" sizes="32x32">
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
   <nav>
-    <div class="nav-grid">
+    <div class="nav-flex">
       <figure>
-        <img src="pic/eng-club-logo.TIFF" alt="Engineering Club Logo" class="logo-img">
+        <img src="pic/eng-club-logo.TIFF" alt="Engineering Club Logo" class="logo-img" loading="lazy">
         <figcaption class="logo">Engineering Club</figcaption>
       </figure>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="projects.html">Projects</a></li>
-        <li><a href="seminars.html">Seminars</a></li>
-        <li><a href="seminars.html">Workshops</a></li>
-        <li><a href="events.html">Events</a></li>
-        <li><a href="dashboard.html">Dashboard</a></li>
-      </ul>
-      <div id="user-info"></div>
+      <div class ="combo-nav">
+        <div id="user-info"></div>
+        <div class="dropdown" id="dropdown">
+          <button class="menu-btn"><div class="bar1"></div><div class="bar2"></div><div class="bar3"></div></button>
+          <div class="menu">
+            <ul>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="projects.html">Projects</a></li>
+              <li><a href="seminars.html">Seminars</a></li>
+              <li><a href="seminars.html">Workshops</a></li>
+              <li><a href="events.html">Events</a></li>
+              <li><a href="dashboard.html">Dashboard</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
   </nav>
 
@@ -61,7 +69,16 @@
 
 
     <div class="card">
-      <h2>Contact Us</h2>
+      <div class="contact-head">
+        <h2>Contact Us</h2>
+        <select id="contact-dept" onchange="filterContacts()">
+          <option value="all">General</option>
+          <option value="computer">Computer</option>
+          <option value="electrical">Electrical</option>
+          <option value="mechanical">Mechanical</option>
+          <option value="biomedical">Biomedical</option>
+        </select>
+      </div>
       <p style="margin-bottom: 2rem; color: #55696b;">Have questions about the club, projects, or events? Get in touch with our team!</p>
 
       <div class="contact-grid">
@@ -133,7 +150,8 @@
     </a>
   </div>
 
-
+  <script src="js/menu.js"></script>
+  <script src="js/contacts.js"></script>
   <script src="js/config.js"></script>
   <script src="js/auth.js"></script>
   <script src="js/api.js"></script>
