@@ -41,26 +41,41 @@ function displayEvents(events) {
         <h3>${event.title}</h3>
         <p style="margin: 1rem 0;">${event.description}</p>
         <p><strong>📅 Date:</strong> ${dateStr}</p>
-        <p><strong>Type:</strong> ${event.type}</p>
-        <button onclick="openVolunteerModal('${event.id}', '${event.title}')" class="btn-primary" style="margin-top: 1rem;">
-          Volunteer to Help
-        </button>
-      </div>
     `;
+
+    if (event.type === 1) { // Volunteer Event
+      const escapedId = encodeURIComponent(event.id);
+      const escapedTitle = encodeURIComponent(event.title);
+      html += `
+          <button
+              onclick="openVolunteerModal('${escapedId}', '${escapedTitle}')" 
+              class="btn-primary"
+              style="margin-top: 1rem;">
+              Volunteer to Help
+          </button>`;
+    }
+    html += `</div>`;
   });
-  
+
   html += '</div>';
   container.innerHTML = html;
 }
 
 function openVolunteerModal(eventId, eventTitle) {
-  // Check if verified
-  if (!requireVerification()) return;
-  
-  selectedEvent = { id: eventId, title: eventTitle };
-  document.getElementById('modal-event-title').textContent = eventTitle;
-  document.getElementById('volunteer-modal').style.display = 'block';
-  document.getElementById('modal-message').innerHTML = '';
+    if (!requireVerification()) return;
+
+    // Decode the escaped values
+    const decodedId = decodeURIComponent(eventId);
+    const decodedTitle = decodeURIComponent(eventTitle);
+    selectedEvent = {
+        id: decodedId,
+        title: decodedTitle
+    };
+
+    const titleElement = document.getElementById('modal-event-title');
+    titleElement.textContent = decodedTitle;
+    document.getElementById('volunteer-modal').style.display = 'block';
+    document.getElementById('modal-message').innerHTML = '';
 }
 
 function closeVolunteerModal() {
