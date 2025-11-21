@@ -33,13 +33,20 @@ function displaySeminars(seminars) {
       month: 'long',
       day: 'numeric'
     });
+
+    const timeStr = new Date(seminar.time).toLocaleTimeString('en-US', { 
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false
+  });
+
     const bcolor = seminar.type === 'Workshop' ? '#d1e7ddff' : '#cff4fcff';
     html += `
       <div class="card" style="background: ${bcolor}; border: 1px solid #2a2a2aff;">
         <h3>${seminar.topic}</h3>
         <p style="margin: 1rem 0;"><strong>Speaker:</strong> ${seminar.speaker}</p>
-        <p><strong>📅 Date:</strong> TBD</p>
-        <p><strong>🕐 Time:</strong> ${seminar.time}</p>
+        <p><strong>📅 Date:</strong> ${dateStr}</p>
+        <p><strong>🕐 Time:</strong> ${timeStr}</p>
         <p><strong>📍 Location:</strong> ${seminar.location}</p>
         <p><strong>📝 Type:</strong> ${seminar.type}</p>
       </div>
